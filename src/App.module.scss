@@ -1,23 +1,19 @@
 .parent {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    position: relative;
 }
 
-.header {
+.headers {
     grid-area: 1 / 1 / 2 / 4;
 }
 
-.groups {
+.groupss {
     grid-area: 2 / 1 / 3 / 2;
 }
 
-.channels {
+.channelss {
     grid-area: 2 / 2 / 3 / 3;
 }
 
-.chatzone {
+.chatzones {
     grid-area: 2 / 3 / 3 / 4;
 }

@@ -68,7 +68,6 @@ const Header = () => {
           <Grid container spacing={2}>
             <Grid item xs={1}>
               <IconButton
-                style={{ marginLeft: '85px' }}
                 size="large"
                 edge="start"
                 color="inherit"

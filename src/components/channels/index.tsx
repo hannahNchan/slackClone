@@ -3,15 +3,10 @@ import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -19,17 +14,22 @@ import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { useSelector } from "react-redux";
+import Grid from "@mui/material/Grid";
+import ListSubheader from "@mui/material/ListSubheader";
+import { faLock } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 const drawerWidth = 240;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
+  marginLeft: "65px",
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-  //marginTop: "64px",
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
@@ -38,7 +38,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  //marginTop: "64px",
+  marginLeft: "65px",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(8)} + 1px)`,
@@ -94,8 +94,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const ChannelsSideBar = () => {
-  const toggle = useSelector((state: any) => state.clickActions.channelsSideBar);
+const ChannelsSideBar = ({ children }) => {
+  const toggle = useSelector(
+    (state: any) => state.clickActions.channelsSideBar
+  );
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -119,39 +121,25 @@ const ChannelsSideBar = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      {/*       <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: 'none' }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          {/*<IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>*/}
-        </DrawerHeader> 
-        <Divider/>
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+        <DrawerHeader></DrawerHeader>
+        <Divider />
+        <List
+          subheader={
+            <ListSubheader component="span" id="channels">
+              Canales
+            </ListSubheader>
+          }
+        >
+          {[
+            {name: "Programación", type: "public"},
+            {name: "La insistencia", type: "private"},
+            {name: "Python", type: "public"},
+            {name: "JavaScript", type: "public"},
+            {name: "Xbox", type: "public"},
+            {name: "Sexo", type: "private"},
+          ].map((text, index) => (
+            <ListItem key={text.name} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -166,70 +154,72 @@ const ChannelsSideBar = () => {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {text.type === "private" && <FontAwesomeIcon style={{ color: "#BB1122" }} icon={faLock as IconProp} />
+                  || <FontAwesomeIcon style={{ color: "#63E6BE" }} icon={faCircle as IconProp} />}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
+        <List
+          subheader={
+            <ListSubheader component="span" id="privateMessages">
+              Mensajes Privados
+            </ListSubheader>
+          }
+        >
+          {[
+            {name: "Hannah (tú)", status: "online"},
+            {name: "Marco Ventas", status: "offline"},
+            {name: "Sofía", status: "online"},
+            {name: "Pololo", status: "offline"},
+           ].map(
+            (text, index) => (
+              <ListItem key={text.name} disablePadding sx={{ display: "block" }}>
+                <ListItemButton
                   sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                  {text.status === "offline" && <FontAwesomeIcon style={{ color: "gray" }} icon={faCircle as IconProp} />
+                  || <FontAwesomeIcon style={{ color: "#63E6BE" }} icon={faCircle as IconProp} />}
+                  </ListItemIcon>
+                  <ListItemText primary={text.name} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              </ListItem>
+            )
+          )}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+      <Box
+        component="div"
+        sx={{
+          marginLeft: "20px",
+          flexGrow: 1,
+          p: 3,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+        }}
+      >
+        <Grid
+          justifyContent="flex-end"
+          container
+          spacing={3}
+          sx={{ minHeight: "calc(97vh - 60px)", flexGrow: 1 }}
+          direction="column"
+        >
+          {children}
+        </Grid>
       </Box>
     </Box>
   );
