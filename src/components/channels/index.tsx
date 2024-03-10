@@ -99,7 +99,7 @@ const ChannelsSideBar = ({ children }) => {
     (state: any) => state.clickActions.channelsSideBar
   );
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   React.useEffect(() => {
     if (toggle) {
