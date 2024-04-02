@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import Grid from "@mui/material/Grid";
 import { openAndclose } from "../../redux/slices/index";
+import AccountMenu from "./AccountMenu";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -88,7 +89,7 @@ const Header = () => {
                   />
                 </Search>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={2}>
               <Item>
                 <Typography
                   variant="h6"
@@ -98,6 +99,11 @@ const Header = () => {
                   >
                   CommuneCast Private Chat
                 </Typography>
+              </Item>
+            </Grid>
+            <Grid item xs={1}>
+              <Item>
+                <AccountMenu />
               </Item>
             </Grid>
           </Grid>
