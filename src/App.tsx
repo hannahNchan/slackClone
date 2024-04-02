@@ -1,22 +1,22 @@
-import React from "react";
-import styles from "./App.module.scss";
-import Header from "components/header";
-import ChannelsSideBar from "components/channels";
-import Groups from "components/groups";
-import Chatbox from "components/chatbox";
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Login from './components/login';
+import "./styles.css";
+import Dashboard from "components/dashboard";
 
-const App = () => {
-  return (
-    <div className={styles.parent}>
-      <div className={styles.header}><Header /></div>
-      <div className={styles.groups}><Groups /></div>
-      <div className={styles.channels}>
-        <ChannelsSideBar>
-          <Chatbox />
-        </ChannelsSideBar>
-      </div>
-    </div>
-  );
-};
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/chat",
+    element: <Dashboard />,
+  },
+]);
 
-export default App;
+export default router;
